@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Phân loại hoa Iris</title>
+    <style>
+        .content {
+            max-width: 1000px;
+            margin: auto;
+        }
+        .form-group {
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+        }
+
+        .form-group label {
+            width: 300px; 
+            margin-right: 10px;
+        }
+
+        .form-group input {
+            width: 200px; 
+            flex-grow: 0;
+            flex-shrink: 0; 
+        }
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #F5F5DC;
+            margin: 20px;
+        }
+
+        h2, p {
+            margin-bottom: 20px;
+        }
+
+        button {
+            margin-top: 10px;
+            padding: 10px 20px;
+            font-size: 16px; 
+            border-radius: 5px; 
+            border: none;
+            background-color: #007bff; 
+            color: white;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+
+        .result {
+            margin-top: 20px;
+        }
+
+        .flower-image {
+            margin-top: 20px;
+            max-width: 30%;
+            height: auto;
+        }
+        
+    </style>
+</head>
+<body>
+    <div class="content">
+        <h2>Phân loại hoa Iris</h2>
+        <h3>Tên sinh viên: Giáp Minh Đức</h3>
+        <h3>Mã số sinh viên: B2113307</h3>
+
+        <form action="/predict" method="POST">
+            <div class="form-group">
+                <label for="sepal_length">Chiều dài đài hoa (Sepal Length):</label>
+                <input type="text" id="sepal_length" name="sepal_length" autocomplete="off" required>
+            </div>
+            
+            <div class="form-group">
+                <label for="sepal_width">Chiều rộng cánh hoa (Sepal Width):</label>
+                <input type="text" id="sepal_width" name="sepal_width" autocomplete="off" required>
+            </div>
+            
+            <div class="form-group">
+                <label for="petal_length">Chiều dài cánh hoa (Petal Length):</label>
+                <input type="text" id="petal_length" name="petal_length" autocomplete="off" required>
+            </div>
+            
+            <div class="form-group">
+                <label for="petal_width">Chiều rộng cánh hoa (Petal Width):</label>
+                <input type="text" id="petal_width" name="petal_width" autocomplete="off" required>
+            </div>
+            
+            <button type="submit">Phân loại</button>
+        </form>
+
+        {% if prediction_text %}
+            <div class="result">
+                <ul>
+                    <li>Sepal Length: {{ sepal_length }}</li>
+                    <li>Sepal Width: {{ sepal_width }}</li>
+                    <li>Petal Length: {{ petal_length }}</li>
+                    <li>Petal Width: {{ petal_width }}</li>
+                </ul>
+                <h3>{{ prediction_text }}</h3>
+                <img id="flower-image" class="flower-image" style="display: none;" alt="Loài hoa">
+            </div>
+        {% endif %}
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const predictionText = "{{ prediction_text }}";
+            const flowerImage = document.getElementById('flower-image');
+
+            if (predictionText.includes('Setosa')) {
+                flowerImage.src = 'https://upload.wikimedia.org/wikipedia/commons/a/a7/Irissetosa1.jpg'; 
+            } else if (predictionText.includes('Versicolor')) {
+                flowerImage.src = 'https://pondplantgrowersdirect.co.uk/wp-content/uploads/2019/04/DSC_0197-Copy-scaled.jpg'; 
+            } else if (predictionText.includes('Virginica')) {
+                flowerImage.src = 'https://www.gardenia.net/wp-content/uploads/2023/05/iris-virginica.webp'; 
+            }
+            if (flowerImage.src) {
+                flowerImage.style.display = 'block'; 
+            }
+        });
+    </script>
+</body>
+</html>
