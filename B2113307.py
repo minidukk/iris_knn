@@ -13,7 +13,7 @@ def home():
 
 @app.route('/predict', methods=['POST'])
 def predict():
-    # Lấy giá trị từ form
+    # Lấy giá trị
     sepal_length = float(request.form['sepal_length'])
     sepal_width = float(request.form['sepal_width'])
     petal_length = float(request.form['petal_length'])
